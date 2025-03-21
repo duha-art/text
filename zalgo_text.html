@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zalgo Text Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 120px 1fr 120px;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .ad {
+            background-color: #e0e0e0;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            text-align: center;
+            color: #666;
+            border-radius: 8px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #cc0000;
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #333;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .crazy-level {
+            margin-bottom: 15px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #cc0000;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        #output {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #333;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: Arial, sans-serif;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="ad ad-top">Advertise Here</div>
+        <div class="ad ad-left">Advertise Here</div>
+        
+        <div class="container">
+            <h1>Zalgo Text Generator</h1>
+            <textarea id="input" placeholder="Type your text here..." autofocus></textarea>
+            
+            <div class="controls">
+                <div class="crazy-level">
+                    <label>Craziness Level: <span id="levelValue">1</span></label>
+                    <input type="range" class="slider" id="crazyLevel" min="1" max="99" value="1">
+                </div>
+            </div>
+
+            <div class="output-container">
+                <div id="output">T̷y̴p̶e̷ ̸y̷o̵u̴r̸ ̴t̶e̷x̶t̴ ̷h̸e̷r̵e̶.̵.̴.</div>
+                <button class="copy-btn" onclick="copyText()">Copy</button>
+            </div>
+        </div>
+
+        <div class="ad ad-right">Advertise Here</div>
+        <div class="ad ad-bottom">Advertise Here</div>
+    </div>
+
+    <script>
+        const zalgoChars = {
+            above: ['\u0300','\u0301','\u0302','\u0303','\u0304','\u0305','\u0306','\u0307','\u0308','\u0309',
+                    '\u030a','\u030b','\u030c','\u030d','\u030e','\u030f','\u0310','\u0311','\u0312','\u0313'],
+            mid: ['\u0314','\u0315','\u0316','\u0317','\u0318','\u0319','\u031a','\u031b','\u031c','\u031d',
+                  '\u0340','\u0341','\u0342','\u0343','\u0344','\u0345','\u0346','\u0347','\u0348','\u0349'],
+            below: ['\u031e','\u031f','\u0320','\u0321','\u0322','\u0323','\u0324','\u0325','\u0326','\u0327',
+                    '\u0328','\u0329','\u032a','\u032b','\u032c','\u032d','\u032e','\u032f','\u0330','\u0331']
+        };
+
+        const inputField = document.getElementById('input');
+        const crazyLevel = document.getElementById('crazyLevel');
+        const outputField = document.getElementById('output');
+        const levelValue = document.getElementById('levelValue');
+        const initialPlaceholder = outputField.textContent;
+
+        inputField.addEventListener('input', generateZalgo);
+        crazyLevel.addEventListener('input', generateZalgo);
+
+        function generateZalgo() {
+            const inputText = inputField.value;
+            const level = parseInt(crazyLevel.value);
+            let output = '';
+
+            levelValue.textContent = level;
+
+            if (inputText === '') {
+                outputField.textContent = initialPlaceholder;
+                return;
+            }
+
+            // Intensity calculation
+            const normalizedLevel = (level - 1) / 98; // Convert 1-99 to 0-1
+            const intensity = Math.pow(normalizedLevel, 3) * 100 + 1;
+            const variance = intensity * 0.4;
+
+            for (const char of inputText) {
+                output += char;
+                const numChars = intensity + (Math.random() * variance - variance/2);
+                
+                if(numChars > 0) {
+                    output += getRandomCombiningChars(Math.floor(numChars), normalizedLevel);
+                }
+            }
+
+            outputField.textContent = output;
+        }
+
+        function getRandomCombiningChars(count, normalizedLevel) {
+            let chars = '';
+            // Adjust character distribution based on level
+            const typeWeights = normalizedLevel > 0.5 ? 
+                [0.4, 0.1, 0.5] : 
+                [0.3, 0.4, 0.3];
+
+            for (let i = 0; i < count; i++) {
+                const type = weightedRandom(['above', 'mid', 'below'], typeWeights);
+                chars += zalgoChars[type][Math.floor(Math.random() * zalgoChars[type].length)];
+            }
+            return chars;
+        }
+
+        function weightedRandom(options, weights) {
+            const total = weights.reduce((a, b) => a + b);
+            const rand = Math.random() * total;
+            let accum = 0;
+            
+            for (let i = 0; i < options.length; i++) {
+                accum += weights[i];
+                if (rand < accum) return options[i];
+            }
+        }
+
+        function copyText() {
+            navigator.clipboard.writeText(outputField.textContent)
+                .then(() => alert('Text copied to clipboard!'))
+                .catch(err => console.error('Failed to copy text:', err));
+        }
+    </script>
+</body>
+</html>
