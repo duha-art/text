@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 40px 0;
+            color: #2b6cb0;
+            font-size: 2.8em;
+            letter-spacing: -1px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .card i {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            color: #4299e1;
+            transition: color 0.3s ease;
+        }
+
+        .card h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #2d3748;
+            width: 100%;
+        }
+
+        .card p {
+            color: #718096;
+            font-size: 0.95em;
+            margin-bottom: 0;
+            line-height: 1.5;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            outline: none;
+            border: none;
+        }
+
+        .card:hover i {
+            color: #3182ce;
+        }
+
+        /* Center the last card */
+        .grid-container > a:last-child {
+            grid-column: 2;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grid-container > a:last-child {
+                grid-column: 1 / -1;
+                justify-self: center;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .grid-container > a:last-child {
+                grid-column: 1;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Transformation Tools</h1>
+    
+    <div class="grid-container">
+        <!-- Row 1 -->
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Zalgo Text Generator</h2>
+                <p>Create creepy corrupted text with combining diacritical marks. Perfect for horror themes and glitch aesthetics.</p>
+            </div>
+        </a>
+
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-eye-slash"></i>
+                <h2>Invisible Text</h2>
+                <p>Generate blank characters and hidden text using Unicode spaces. Useful for formatting tricks and empty messages.</p>
+            </div>
+        </a>
+
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-keyboard"></i>
+                <h2>ASCII Art</h2>
+                <p>Convert images and text to classic ASCII art. Create text-based drawings and retro-style decorations.</p>
+            </div>
+        </a>
+
+        <!-- Row 2 -->
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-pen-nib"></i>
+                <h2>Cursive Converter</h2>
+                <p>Transform text into beautiful handwriting styles. Choose from various script fonts and calligraphy designs.</p>
+            </div>
+        </a>
+
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-random"></i>
+                <h2>Text Shuffler</h2>
+                <p>Randomize character order in any text. Create scrambled words for puzzles or unique text effects.</p>
+            </div>
+        </a>
+
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-wave-square"></i>
+                <h2>Morse Code</h2>
+                <p>Translate text to Morse code and vice versa. Includes audio playback for learning signals.</p>
+            </div>
+        </a>
+
+        <!-- Centered Last Card -->
+        <a href="#">
+            <div class="card">
+                <i class="fas fa-star"></i>
+                <h2>Fancy Text Generator</h2>
+                <p>Convert normal text to stylish fonts with Unicode characters. Perfect for social media bios, gaming names, and special decorations. Choose from 100+ unique text styles!</p>
+            </div>
+        </a>
+    </div>
+</body>
+</html>
